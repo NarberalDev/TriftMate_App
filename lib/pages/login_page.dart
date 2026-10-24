@@ -10,17 +10,17 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final passwordController = TextEditingController();
+
   bool _obscurePassword = true;
 
-  final TextEditingController nameController = TextEditingController(text: '');
-
-  final TextEditingController emailController = TextEditingController(text: '');
-
-  final TextEditingController phoneController = TextEditingController(text: '');
-
-  final TextEditingController passwordController = TextEditingController(
-    text: '',
-  );
+  static const Color backgroundColor = Color(0xFFF8F7F1);
+  static const Color primaryColor = Color(0xFF244C32);
+  static const Color textColor = Color(0xFF202820);
+  static const Color secondaryColor = Color(0xFF737A71);
 
   @override
   void dispose() {
@@ -34,104 +34,77 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F7F1),
+      backgroundColor: backgroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 28),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Logo
-              Row(
-                children: [
-                  Container(
-                    width: 34,
-                    height: 34,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF304A32),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.eco_outlined,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeader(),
+
+                const SizedBox(height: 30),
+
+                const Text(
+                  'Welcome to ThriftMate!',
+                  style: TextStyle(
+                    fontSize: 27,
+                    fontWeight: FontWeight.w800,
+                    color: textColor,
                   ),
-                  const SizedBox(width: 10),
-                  const Text(
-                    'ThriftMate',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF29422D),
-                    ),
+                ),
+
+                const SizedBox(height: 8),
+
+                const Text(
+                  'Join the circular fashion movement. '
+                  'Sign in or create your account to get started.',
+                  style: TextStyle(
+                    fontSize: 13,
+                    height: 1.6,
+                    color: secondaryColor,
                   ),
-                ],
-              ),
-
-              const SizedBox(height: 22),
-
-              // Title
-              const Text(
-                'Welcome, thrifter.',
-                style: TextStyle(
-                  fontSize: 31,
-                  height: 1.1,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF172018),
                 ),
-              ),
 
-              const SizedBox(height: 10),
+                const SizedBox(height: 28),
 
-              const Text(
-                'Create an account or sign back in to save, sell, and\n'
-                'shop more consciously.',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.45,
-                  color: Color(0xFF60665F),
+                _buildInputField(
+                  label: 'Name',
+                  hint: 'Enter your full name',
+                  controller: nameController,
+                  icon: Icons.person_outline,
+                  keyboardType: TextInputType.name,
                 ),
-              ),
 
-              const SizedBox(height: 18),
+                const SizedBox(height: 16),
 
-              _buildLabel('Name'),
-              const SizedBox(height: 7),
-              _buildTextField(
-                controller: nameController,
-                icon: Icons.person_outline,
-              ),
+                _buildInputField(
+                  label: 'Email',
+                  hint: 'Enter your email address',
+                  controller: emailController,
+                  icon: Icons.email_outlined,
+                  keyboardType: TextInputType.emailAddress,
+                ),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
-              _buildLabel('Email'),
-              const SizedBox(height: 7),
-              _buildTextField(
-                controller: emailController,
-                icon: Icons.mail_outline,
-              ),
+                _buildInputField(
+                  label: 'Phone Number',
+                  hint: 'Enter your phone number',
+                  controller: phoneController,
+                  icon: Icons.phone_outlined,
+                  keyboardType: TextInputType.phone,
+                ),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
-              _buildLabel('Phone Number'),
-              const SizedBox(height: 7),
-              _buildTextField(
-                controller: phoneController,
-                icon: Icons.phone_outlined,
-              ),
-
-              const SizedBox(height: 12),
-
-              _buildLabel('Password'),
-              const SizedBox(height: 7),
-
-              TextField(
-                controller: passwordController,
-                obscureText: _obscurePassword,
-                style: const TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock_outline, size: 21),
+                _buildInputField(
+                  label: 'Password',
+                  hint: 'Enter your password',
+                  controller: passwordController,
+                  icon: Icons.lock_outline,
+                  obscureText: _obscurePassword,
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
@@ -140,251 +113,294 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     icon: Icon(
                       _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
+                          ? Icons.visibility_off_outlined
+                          : Icons.visibility_outlined,
+                      color: secondaryColor,
                       size: 20,
                     ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 16,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(11),
-                    borderSide: const BorderSide(color: Color(0xFFD4D4CF)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(11),
-                    borderSide: const BorderSide(color: Color(0xFFD4D4CF)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(11),
-                    borderSide: const BorderSide(
-                      color: Color(0xFF304A32),
-                      width: 1.5,
-                    ),
-                  ),
                 ),
-              ),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 8),
 
-              // Forgot Password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(userName: nameController.text),
-                      ),
-                    );
-                  },
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: Size.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(fontSize: 13, color: Color(0xFF29422D)),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 10),
-
-              // Login / Register
-              SizedBox(
-                width: double.infinity,
-                height: 57,
-                child: ElevatedButton(
-                  onPressed: () {
-                    List<String> kolomKosong = [];
-
-                    if (nameController.text.trim().isEmpty) {
-                      kolomKosong.add('Nama');
-                    }
-
-                    if (emailController.text.trim().isEmpty) {
-                      kolomKosong.add('Email');
-                    }
-
-                    if (phoneController.text.trim().isEmpty) {
-                      kolomKosong.add('Nomor telepon');
-                    }
-
-                    if (passwordController.text.isEmpty) {
-                      kolomKosong.add('Password');
-                    }
-
-                    if (kolomKosong.isNotEmpty) {
-                      String pesan;
-
-                      if (kolomKosong.length == 1) {
-                        pesan = '${kolomKosong.first} belum diisi.';
-                      } else {
-                        pesan = '${kolomKosong.join(', ')} belum diisi.';
-                      }
-
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(pesan),
-                          backgroundColor: Colors.red,
-                          behavior: SnackBarBehavior.floating,
+                        const SnackBar(
+                          content: Text(
+                            'Fitur Forgot Password belum tersedia.',
+                          ),
                         ),
                       );
-
-                      return;
-                    }
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            HomePage(userName: nameController.text.trim()),
-                      ),
-                    );
-                  },
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF304A32),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  child: const Text(
-                    'Login/Register',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Divider
-              Row(
-                children: [
-                  const Expanded(child: Divider(color: Color(0xFFD6D4CC))),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Text(
-                      'or continue with',
+                    },
+                    child: const Text(
+                      'Forgot Password?',
                       style: TextStyle(
+                        color: primaryColor,
                         fontSize: 12,
-                        color: Colors.grey.shade600,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
-                  const Expanded(child: Divider(color: Color(0xFFD6D4CC))),
-                ],
-              ),
-
-              const SizedBox(height: 18),
-
-              _socialButton(icon: Icons.language, text: 'Continue with Google'),
-
-              const SizedBox(height: 10),
-
-              _socialButton(icon: Icons.apple, text: 'Continue with Apple'),
-
-              const SizedBox(height: 17),
-
-              const Center(
-                child: Text(
-                  'By continuing, you agree to our Terms and Privacy Policy.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 10, color: Color(0xFFAAA9A2)),
                 ),
-              ),
-            ],
+
+                const SizedBox(height: 12),
+
+                _buildPrimaryButton(),
+
+                const SizedBox(height: 22),
+
+                Row(
+                  children: [
+                    const Expanded(child: Divider(color: Color(0xFFDADDD4))),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'Or continue with',
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                    const Expanded(child: Divider(color: Color(0xFFDADDD4))),
+                  ],
+                ),
+
+                const SizedBox(height: 18),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSocialButton(
+                        label: 'Google',
+                        icon: Icons.g_mobiledata,
+                        onPressed: () => _showUnavailableFeature('Google'),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _buildSocialButton(
+                        label: 'Apple',
+                        icon: Icons.apple,
+                        onPressed: () => _showUnavailableFeature('Apple'),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 22),
+
+                const Center(
+                  child: Text(
+                    'Fashion with a purpose.',
+                    style: TextStyle(fontSize: 11, color: secondaryColor),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildLabel(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.w600,
-        color: Color(0xFF20251F),
-      ),
+  // Header
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          decoration: const BoxDecoration(
+            color: primaryColor,
+            shape: BoxShape.circle,
+          ),
+          child: const Icon(Icons.eco_outlined, color: Colors.white, size: 25),
+        ),
+        const SizedBox(width: 12),
+        const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'ThriftMate',
+              style: TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.w800,
+                color: textColor,
+              ),
+            ),
+            SizedBox(height: 2),
+            Text(
+              'FASHION WITH A PURPOSE',
+              style: TextStyle(
+                fontSize: 9,
+                letterSpacing: 1.3,
+                fontWeight: FontWeight.w600,
+                color: secondaryColor,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _buildTextField({
+  // Input Field
+  Widget _buildInputField({
+    required String label,
+    required String hint,
     required TextEditingController controller,
     required IconData icon,
+    TextInputType? keyboardType,
+    bool obscureText = false,
+    Widget? suffixIcon,
   }) {
-    return TextField(
-      controller: controller,
-      style: const TextStyle(fontSize: 14),
-      decoration: InputDecoration(
-        prefixIcon: Icon(icon, size: 21),
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 16,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: textColor,
+          ),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
-          borderSide: const BorderSide(color: Color(0xFFD4D4CF)),
+        const SizedBox(height: 8),
+        TextField(
+          controller: controller,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: const TextStyle(fontSize: 12, color: Color(0xFF9A9F97)),
+            prefixIcon: Icon(icon, size: 20, color: secondaryColor),
+            suffixIcon: suffixIcon,
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 16,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              borderSide: const BorderSide(color: Color(0xFFE1E3DC)),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              borderSide: const BorderSide(color: Color(0xFFE1E3DC)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(13),
+              borderSide: const BorderSide(color: primaryColor, width: 1.5),
+            ),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
-          borderSide: const BorderSide(color: Color(0xFFD4D4CF)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(11),
-          borderSide: const BorderSide(color: Color(0xFF304A32), width: 1.5),
-        ),
-      ),
+      ],
     );
   }
 
-  Widget _socialButton({required IconData icon, required String text}) {
+  // Login / Register Button
+  Widget _buildPrimaryButton() {
     return SizedBox(
       width: double.infinity,
-      height: 51,
-      child: OutlinedButton(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomePage(userName: nameController.text),
-            ),
-          );
-        },
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: const Color(0xFF172018),
-          side: const BorderSide(color: Color(0xFFD4D4CF)),
+      height: 54,
+      child: ElevatedButton(
+        onPressed: _handleLogin,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: primaryColor,
+          foregroundColor: Colors.white,
+          elevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 21),
-            const SizedBox(width: 12),
-            Text(
-              text,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-            ),
-          ],
+        child: const Text(
+          'Login / Register',
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
         ),
       ),
+    );
+  }
+
+  void _handleLogin() {
+    final List<String> emptyFields = [];
+
+    if (nameController.text.trim().isEmpty) {
+      emptyFields.add('Nama');
+    }
+
+    if (emailController.text.trim().isEmpty) {
+      emptyFields.add('Email');
+    }
+
+    if (phoneController.text.trim().isEmpty) {
+      emptyFields.add('Nomor telepon');
+    }
+
+    if (passwordController.text.trim().isEmpty) {
+      emptyFields.add('Password');
+    }
+
+    // Jika masih ada field kosong, tampilkan peringatan
+    // dan hentikan proses sebelum navigasi ke Home.
+    if (emptyFields.isNotEmpty) {
+      final String message = emptyFields.length == 1
+          ? '${emptyFields.first} belum diisi!'
+          : '${emptyFields.join(', ')} belum diisi!';
+
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red.shade700,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+
+      return;
+    }
+
+    // Navigasi hanya dilakukan jika semua field terisi.
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomePage(userName: nameController.text.trim()),
+      ),
+    );
+  }
+
+  // Google / Apple Buttons
+  Widget _buildSocialButton({
+    required String label,
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 22),
+      label: Text(
+        label,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+      ),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: textColor,
+        backgroundColor: Colors.white,
+        minimumSize: const Size(0, 48),
+        side: const BorderSide(color: Color(0xFFE1E3DC)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+      ),
+    );
+  }
+
+  void _showUnavailableFeature(String provider) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login dengan $provider belum terintegrasi.')),
     );
   }
 }
